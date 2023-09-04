@@ -7,9 +7,10 @@
     "active": 1,
     "order": 2,
     "providers": [
-        "Modules\\Tenant\\Providers\\TenantServiceProvider"
+        "Modules\\Tenant\\Providers\\TenantServiceProvider",
+        "Modules\\Tenant\\Providers\\Filament\\AdminPanelProvider"
     ],
-    "aliases": {},
+    "aliases": [],
     "files": [],
     "requires": []
 }
