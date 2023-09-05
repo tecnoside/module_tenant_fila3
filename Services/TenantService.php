@@ -19,7 +19,6 @@ use Modules\Cms\Services\PanelService;
 use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
 use ReflectionException;
-use Request;
 use Webmozart\Assert\Assert;
 
 use function chr;
@@ -66,7 +65,7 @@ class TenantService
 
         $tmp = collect(explode('.', $server_name))
             ->map(
-                fn($item) => Str::slug($item)
+                fn ($item) => Str::slug($item)
             )->reverse()
             ->values();
 
@@ -368,7 +367,7 @@ class TenantService
 
         $path = Arr::first(
             $paths,
-            fn($path): bool => file_exists($path)
+            fn ($path): bool => file_exists($path)
         );
         if (! is_string($path)) {
             throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
@@ -410,10 +409,10 @@ class TenantService
 
         return collect($files)
             ->filter(
-                fn($item): bool => 'php' === $item->getExtension()
+                fn ($item): bool => 'php' === $item->getExtension()
             )
             ->map(
-                fn($item, $k): array => [
+                fn ($item, $k): array => [
                     'id' => $k + 1,
                     'name' => $item->getFilenameWithoutExtension(),
                 ]
