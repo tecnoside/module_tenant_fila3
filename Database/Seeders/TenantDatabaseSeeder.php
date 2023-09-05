@@ -7,7 +7,7 @@ namespace Modules\Tenant\Database\Seeders;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
-class TenantDatabaseSeeder extends Seeder
+final class TenantDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Request;
 use const DIRECTORY_SEPARATOR;
 
 use Exception;
@@ -29,7 +29,7 @@ use function Safe\preg_replace;
 /**
  * Class TenantService.
  */
-class TenantService
+final class TenantService
 {
     // public static $panel;
 
@@ -51,6 +51,7 @@ class TenantService
             // throw new Exception('['.$default.']['.__LINE__.']['.class_basename(__CLASS__).']');
             $default = 'localhost';
         }
+        
         $default = Str::after($default, '//');
 
         $server_name = $default;
@@ -65,7 +66,7 @@ class TenantService
 
         $tmp = collect(explode('.', $server_name))
             ->map(
-                fn ($item) => Str::slug($item)
+                static fn($item) => Str::slug($item)
             )->reverse()
             ->values();
 
@@ -76,6 +77,7 @@ class TenantService
 
             return $tmp->implode('/');
         }
+        
         $config_file = config_path($tmp->slice(0, -1)->implode(DIRECTORY_SEPARATOR));
         if (file_exists($config_file) && $tmp->count() > 2) {
             // dd(['config_file' => $config_file, 'tmp' => $tmp, 'line' => __LINE__]);
@@ -86,13 +88,16 @@ class TenantService
         // default
 
         $default = str_replace('.', '-', $default);
-        if (file_exists(base_path('config/' . $default)) && '' !== $default) {
-            // dd(['default' => $default, 'line' => __LINE__,]);
-            return $default;
+        if (!file_exists(base_path('config/' . $default))) {
+            // dd(['localhost' => 'localhost','line' => __LINE__,]);
+            return 'localhost';
         }
-
-        // dd(['localhost' => 'localhost','line' => __LINE__,]);
-        return 'localhost';
+        if ('' === $default) {
+            // dd(['localhost' => 'localhost','line' => __LINE__,]);
+            return 'localhost';
+        }
+        // dd(['default' => $default, 'line' => __LINE__,]);
+        return $default;
     }
 
     // end function
@@ -108,37 +113,38 @@ class TenantService
     }
 
     // end function
-
     /**
      * tenant config.
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
      *
      * @param  string|int|array|null  $default
-     * @return string|int|array|float|null
      */
-    public static function config(string $key, $default = null)
+    public static function config(string $key, $default = null): float|int|string|array|null
     {
         /*
         if(app()->runningInConsole()){
             return config($key, $default);
         }
         */
-        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== \Illuminate\Support\Facades\Request::segment(2)) {
-            $module_name = \Illuminate\Support\Facades\Request::segment(2);
+        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== Request::segment(2)) {
+            $module_name = Request::segment(2);
             $models = getModuleModels($module_name);
             $original_conf = config('morph_map');
             if (! is_array($original_conf)) {
                 $original_conf = [];
             }
+            
             $path = self::filePath('morph_map.php');
             $tenant_conf = [];
             if (File::exists($path)) {
                 $tenant_conf = File::getRequire($path);
             }
+            
             if (! is_array($tenant_conf)) {
                 $tenant_conf = [];
             }
+            
             $merge_conf = collect($models)
                 ->merge($original_conf)
                 ->merge($tenant_conf)
@@ -148,9 +154,8 @@ class TenantService
 
             if (is_numeric($res) || is_string($res) || is_array($res)) {
                 return $res;
-            } else {
-                throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
             }
+            throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
         }
 
         $group = collect(explode('.', $key))->first();
@@ -214,10 +219,10 @@ class TenantService
         // dddx(gettype($res));//array;
         if (is_numeric($res) || is_string($res) || is_array($res) || null === $res) {
             return $res;
-        } else {
-            dddx($res);
-            throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
         }
+        dddx($res);
+        throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
+        
         // return $res;
     }
 
@@ -257,6 +262,7 @@ class TenantService
         if (File::exists($path)) {
             $config_data = File::getRequire($path);
         }
+        
         if (! is_array($config_data)) {
             $config_data = [];
         }
@@ -288,16 +294,19 @@ class TenantService
                 throw new Exception('model unknown [' . $name . ']
                 [line:' . __LINE__ . '][' . basename(__FILE__) . ']');
             }
+            
             $class = $models[$name];
             $data = [];
             $data[$name] = $class;
             self::saveConfig('morph_map', $data);
         }
+        
         // $model = app($class);
         if (! is_string($class)) {
             if (is_array($class)) {
                 return $class[0];
             }
+            
             dddx(
                 [
                     'name' => $name,
@@ -367,7 +376,7 @@ class TenantService
 
         $path = Arr::first(
             $paths,
-            fn ($path): bool => file_exists($path)
+            static fn($path): bool => file_exists($path)
         );
         if (! is_string($path)) {
             throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
@@ -405,14 +414,15 @@ class TenantService
 
         $dir = config_path($name);
         $dir = FileService::fixPath($dir);
+        
         $files = File::files($dir);
 
         return collect($files)
             ->filter(
-                fn ($item): bool => 'php' === $item->getExtension()
+                static fn($item): bool => 'php' === $item->getExtension()
             )
             ->map(
-                fn ($item, $k): array => [
+                static fn($item, $k): array => [
                     'id' => $k + 1,
                     'name' => $item->getFilenameWithoutExtension(),
                 ]
@@ -430,9 +440,13 @@ class TenantService
         $json = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         $modules = [];
         foreach ($json as $name => $enabled) {
-            if ($enabled && File::exists(base_path('Modules/' . $name))) {
-                $modules[] = $name;
+            if (!$enabled) {
+                continue;
             }
+            if (!File::exists(base_path('Modules/' . $name))) {
+                continue;
+            }
+            $modules[] = $name;
         }
 
         return $modules;

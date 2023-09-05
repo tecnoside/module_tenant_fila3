@@ -15,7 +15,7 @@ use Modules\Xot\Providers\XotBaseServiceProvider;
 use function is_array;
 use function Safe\realpath;
 
-class TenantServiceProvider extends XotBaseServiceProvider
+final class TenantServiceProvider extends XotBaseServiceProvider
 {
     protected string $module_dir = __DIR__;
 
@@ -31,6 +31,7 @@ class TenantServiceProvider extends XotBaseServiceProvider
             DB::purge('mysql'); // Call to a member function prepare() on null
             DB::reconnect('mysql');
         }
+        
         // DB::purge(); //Call to a member function prepare() on null
         // Database connection [mysql] not configured.
         DB::reconnect();
@@ -72,11 +73,5 @@ class TenantServiceProvider extends XotBaseServiceProvider
         foreach ($configs as $config) {
             $tmp = TenantService::config($config['name']);
         }
-    }
-
-    // end mergeConfigs
-
-    public function registerCallback(): void
-    {
     }
 }
