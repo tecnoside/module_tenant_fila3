@@ -92,10 +92,12 @@ final class TenantService
             // dd(['localhost' => 'localhost','line' => __LINE__,]);
             return 'localhost';
         }
+        
         if ('' === $default) {
             // dd(['localhost' => 'localhost','line' => __LINE__,]);
             return 'localhost';
         }
+        
         // dd(['default' => $default, 'line' => __LINE__,]);
         return $default;
     }
@@ -155,6 +157,7 @@ final class TenantService
             if (is_numeric($res) || is_string($res) || is_array($res)) {
                 return $res;
             }
+            
             throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
         }
 
@@ -220,6 +223,7 @@ final class TenantService
         if (is_numeric($res) || is_string($res) || is_array($res) || null === $res) {
             return $res;
         }
+        
         dddx($res);
         throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
         
@@ -443,9 +447,11 @@ final class TenantService
             if (!$enabled) {
                 continue;
             }
+            
             if (!File::exists(base_path('Modules/' . $name))) {
                 continue;
             }
+            
             $modules[] = $name;
         }
 

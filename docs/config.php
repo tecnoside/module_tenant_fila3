@@ -41,9 +41,11 @@ return [
         if (!is_object($menuItem)) {
             return;
         }
+        
         if (!$menuItem->children) {
             return;
         }
+        
         return $menuItem->children->contains(static fn($child): bool => trimPath($page->getPath()) == trimPath($child));
     }, /*
     'url' => function ($page, $path) {
@@ -54,6 +56,7 @@ return [
         if (Str::startsWith($path, 'http')) {
             return $path;
         }
+        
         // return url('/'.$page->lang.'/'.trimPath($path));
         return url('/' . trimPath($path));
     },
