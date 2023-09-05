@@ -55,7 +55,7 @@ class TenantServiceProvider extends XotBaseServiceProvider
         ]);
         */
         // if ($this->app->runningUnitTests()) {
-        if (base_path() != realpath(__DIR__ . '/../../../')) {
+        if (base_path() !== realpath(__DIR__ . '/../../../')) {
             // $this->publishes([
             //    __DIR__ . '/../Config/xra.php' => config_path('xra.php'),
             // ], 'config');
@@ -69,8 +69,8 @@ class TenantServiceProvider extends XotBaseServiceProvider
 
         $configs = TenantService::getConfigNames();
 
-        foreach ($configs as $v) {
-            $tmp = TenantService::config($v['name']);
+        foreach ($configs as $config) {
+            $tmp = TenantService::config($config['name']);
         }
     }
 
