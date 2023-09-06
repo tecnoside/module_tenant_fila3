@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use samdark\sitemap\Sitemap;
 use TightenCo\Jigsaw\Jigsaw;
 
-final class GenerateSitemap
+class GenerateSitemap
 {
     private array $exclude = [
         '/assets/*',
@@ -26,12 +26,12 @@ final class GenerateSitemap
             return;
         }
 
-        $sitemap = new Sitemap($jigsaw->getDestinationPath() . '/sitemap.xml');
+        $sitemap = new Sitemap($jigsaw->getDestinationPath().'/sitemap.xml');
 
         collect($jigsaw->getOutputPaths())
-            ->reject(fn($path) => $this->isExcluded($path))->each(
-                static function (string $path) use ($baseUrl, $sitemap) : void {
-                    $sitemap->addItem(rtrim((string) $baseUrl, '/') . $path, time(), Sitemap::DAILY);
+            ->reject(fn ($path) => $this->isExcluded($path))->each(
+                static function (string $path) use ($baseUrl, $sitemap): void {
+                    $sitemap->addItem(rtrim((string) $baseUrl, '/').$path, time(), Sitemap::DAILY);
                 }
             );
 

@@ -12,10 +12,9 @@ use Illuminate\Support\Facades\Schema;
 use Modules\Tenant\Services\TenantService;
 use Modules\Xot\Providers\XotBaseServiceProvider;
 
-use function is_array;
 use function Safe\realpath;
 
-final class TenantServiceProvider extends XotBaseServiceProvider
+class TenantServiceProvider extends XotBaseServiceProvider
 {
     protected string $module_dir = __DIR__;
 
@@ -31,14 +30,14 @@ final class TenantServiceProvider extends XotBaseServiceProvider
             DB::purge('mysql'); // Call to a member function prepare() on null
             DB::reconnect('mysql');
         }
-        
+
         // DB::purge(); //Call to a member function prepare() on null
         // Database connection [mysql] not configured.
         DB::reconnect();
         Schema::defaultStringLength(191);
 
         $map = TenantService::config('morph_map');
-        if (! is_array($map)) {
+        if (! \is_array($map)) {
             $map = [];
         }
 
@@ -56,14 +55,14 @@ final class TenantServiceProvider extends XotBaseServiceProvider
         ]);
         */
         // if ($this->app->runningUnitTests()) {
-        if (base_path() !== realpath(__DIR__ . '/../../../')) {
+        if (base_path() !== realpath(__DIR__.'/../../../')) {
             // $this->publishes([
             //    __DIR__ . '/../Config/xra.php' => config_path('xra.php'),
             // ], 'config');
 
             $name = TenantService::getName();
             File::makeDirectory(config_path($name), 0755, true, true);
-            $this->mergeConfigFrom(__DIR__ . '/../Config/xra.php', 'xra');
+            $this->mergeConfigFrom(__DIR__.'/../Config/xra.php', 'xra');
 
             return;
         }
