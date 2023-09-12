@@ -24,6 +24,7 @@ class TenantServiceProvider extends XotBaseServiceProvider
 
     public function bootCallback(): void
     {
+
         $this->mergeConfigs();
 
         if (Request::has('act') && 'migrate' === Request::input('act')) {
