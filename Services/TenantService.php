@@ -337,11 +337,11 @@ class TenantService
         return app($class);
     }
 
-    /*
-    * deprecated non dobbiamo usare in tenant robe di panel .. tenant dipende solo da xot
+    /**
+     * deprecated non dobbiamo usare in tenant robe di panel .. tenant dipende solo da xot
+     *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \ReflectionException
-
     public static function modelEager(string $name): \Illuminate\Database\Eloquent\Builder {
         $model = self::model($name);
         // Strict comparison using === between null and Illuminate\Database\Eloquent\Model will always evaluate to false.
@@ -361,7 +361,7 @@ class TenantService
 
         return $model;
     }
-    */
+     */
 
     /**
      * Find the path to a localized Markdown resource. copiata da jetstream.php.
@@ -439,6 +439,7 @@ class TenantService
         $filePath = static::filePath('modules_statuses.json');
         $contents = File::get($filePath);
         $json = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+        /** @var array<string> */
         $modules = [];
         foreach ($json as $name => $enabled) {
             if (! $enabled) {
