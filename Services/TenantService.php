@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
+use ReflectionException;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -156,7 +157,7 @@ class TenantService
                 return $res;
             }
 
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         $group = collect(explode('.', $key))->first();
@@ -192,7 +193,7 @@ class TenantService
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
         if (null === $group) {
-            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         Config::set($group, $merge_conf);
@@ -211,7 +212,7 @@ class TenantService
                 'data' => $data,
             ]);
             */
-            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
             // self::saveConfig($group,$data);
 
             // return $default;
@@ -223,7 +224,7 @@ class TenantService
         }
 
         dddx($res);
-        throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+        throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         // return $res;
     }
 
@@ -292,7 +293,7 @@ class TenantService
         if (null === $class) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new \Exception('model unknown ['.$name.']
+                throw new Exception('model unknown ['.$name.']
                 [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
@@ -321,14 +322,14 @@ class TenantService
         // but returns object.
         // $model = new $class();
         if (! \is_string($class)) {
-            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         return $class;
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function model(string $name): Model
     {
@@ -380,7 +381,7 @@ class TenantService
             static fn ($path): bool => file_exists($path)
         );
         if (! \is_string($path)) {
-            throw new \Exception('['.__LINE__.']['.__FILE__.']');
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         return $path;
@@ -439,7 +440,6 @@ class TenantService
         $filePath = static::filePath('modules_statuses.json');
         $contents = File::get($filePath);
         $json = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-        /** @var array<string> */
         $modules = [];
         foreach ($json as $name => $enabled) {
             if (! $enabled) {
