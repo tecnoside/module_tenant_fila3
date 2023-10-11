@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
-use ReflectionException;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -28,8 +27,7 @@ use Webmozart\Assert\Assert;
 /**
  * Class TenantService.
  */
-class TenantService
-{
+class TenantService {
     // public static $panel;
 
     /*
@@ -42,8 +40,7 @@ class TenantService
      * Undocumented function.
      */
     // public static function getName(array $params = []): string {
-    public static function getName(): string
-    {
+    public static function getName(): string {
         // *
         $default = env('APP_URL');
         if (! \is_string($default)) {
@@ -106,8 +103,7 @@ class TenantService
     /**
      * Undocumented function.
      */
-    public static function filePath(string $filename): string
-    {
+    public static function filePath(string $filename): string {
         $path = base_path('config/'.self::getName().'/'.$filename);
 
         return str_replace(['/', '\\'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $path);
@@ -121,8 +117,7 @@ class TenantService
      *
      * @param string|int|array|null $default
      */
-    public static function config(string $key, $default = null): float|int|string|array|null
-    {
+    public static function config(string $key, $default = null): float|int|string|array|null {
         /*
         if(app()->runningInConsole()){
             return config($key, $default);
@@ -157,7 +152,7 @@ class TenantService
                 return $res;
             }
 
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         $group = collect(explode('.', $key))->first();
@@ -193,7 +188,7 @@ class TenantService
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
         if (null === $group) {
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         Config::set($group, $merge_conf);
@@ -212,7 +207,7 @@ class TenantService
                 'data' => $data,
             ]);
             */
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
             // self::saveConfig($group,$data);
 
             // return $default;
@@ -224,19 +219,17 @@ class TenantService
         }
 
         dddx($res);
-        throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+        throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         // return $res;
     }
 
-    public static function getConfigPath(string $key): string
-    {
+    public static function getConfigPath(string $key): string {
         $name = self::getName();
 
         return str_replace('/', '.', $name).'.'.$key;
     }
 
-    public static function saveConfig(string $name, array $data): void
-    {
+    public static function saveConfig(string $name, array $data): void {
         /*
         $tennant_name = self::getName();
         $config_name = $tennant_name.'.'.$name;
@@ -283,8 +276,7 @@ class TenantService
     /**
      * Undocumented function.
      */
-    public static function modelClass(string $name): ?string
-    {
+    public static function modelClass(string $name): ?string {
         $name = Str::singular($name);
         $name = Str::snake($name);
 
@@ -293,7 +285,7 @@ class TenantService
         if (null === $class) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new Exception('model unknown ['.$name.']
+                throw new \Exception('model unknown ['.$name.']
                 [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
@@ -322,24 +314,23 @@ class TenantService
         // but returns object.
         // $model = new $class();
         if (! \is_string($class)) {
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         return $class;
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
-    public static function model(string $name): Model
-    {
+    public static function model(string $name): Model {
         $class = self::modelClass($name);
 
         return app($class);
     }
 
     /**
-     * deprecated non dobbiamo usare in tenant robe di panel .. tenant dipende solo da xot
+     * deprecated non dobbiamo usare in tenant robe di panel .. tenant dipende solo da xot.
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \ReflectionException
@@ -367,8 +358,7 @@ class TenantService
     /**
      * Find the path to a localized Markdown resource. copiata da jetstream.php.
      */
-    public static function localizedMarkdownPath(string $name): string
-    {
+    public static function localizedMarkdownPath(string $name): string {
         preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
         $lang = app()->getLocale();
         $paths = [
@@ -381,7 +371,8 @@ class TenantService
             static fn ($path): bool => file_exists($path)
         );
         if (! \is_string($path)) {
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            return '#';
+            throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         return $path;
@@ -390,8 +381,7 @@ class TenantService
     /**
      * @return array
      */
-    public static function getConfigNames()
-    {
+    public static function getConfigNames() {
         $name = self::getName();
         // if (app()->runningInConsole()) {
         // File::makeDirectory(config_path($name), 0755, true, true);
@@ -435,8 +425,7 @@ class TenantService
     /**
      * @return array<string>
      */
-    public static function allModules(): array
-    {
+    public static function allModules(): array {
         $filePath = static::filePath('modules_statuses.json');
         $contents = File::get($filePath);
         $json = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
