@@ -384,7 +384,7 @@ class TenantService
         );
         if (! is_string($path)) {
             return '#';
-            throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
+            // throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
         }
 
         return $path;
@@ -442,6 +442,9 @@ class TenantService
     {
         $filePath = static::filePath('modules_statuses.json');
         $contents = File::get($filePath);
+        /**
+         * @var array
+         */
         $json = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         $modules = [];
         foreach ($json as $name => $enabled) {
