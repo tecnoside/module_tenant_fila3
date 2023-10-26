@@ -1,5 +1,5 @@
 {
-    "name": "laraxot/module_tenant_fila",
+    "name": "laraxot/module_tenant_fila3",
     "description": "tenant module for software architecture that allows a single instance of a software application to serve multiple tenants",
     "keywords": [
         "laraxot",
@@ -9,7 +9,7 @@
         "Laravel", 
         "Tenant module"
     ],
-    "homepage": "https://github.com/laraxot/module_tenant_fila",
+    "homepage": "https://github.com/laraxot/module_tenant_fila3",
     "license": "MIT",
     "authors": [{
         "name": "Marco Xot",
