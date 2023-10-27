@@ -44,6 +44,7 @@
         "spatie/test-time": "*",
         "symplify/phpstan-rules": "*",
         "thecodingmachine/phpstan-safe-rule": "*",
+        "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
     "repositories": [
