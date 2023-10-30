@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="5"
+    errorLevel="1"
+    cacheDirectory="build/psalm"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
@@ -9,16 +10,14 @@
     findUnusedCode="true"
 >
     <projectFiles>
-        <directory name="Config"/>
-        <directory name="Database"/>
-        <directory name="Providers"/>
-        <directory name="Resources"/>
-        <directory name="Routes"/>
-        <directory name="Services"/>
-        <directory name="build"/>
-        <directory name="docs"/>
+        <directory name="."/>
         <ignoreFiles>
-            <directory name="vendor"/>
+            <directory name="build" />
+            <directory name="vendor" />
+            <directory name="docs" />
         </ignoreFiles>
     </projectFiles>
-<plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/></plugins></psalm>
+    <plugins>
+        <pluginClass class="Psalm\LaravelPlugin\Plugin"/>
+    </plugins>
+</psalm>
