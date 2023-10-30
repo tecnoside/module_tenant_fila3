@@ -56,7 +56,7 @@ class TenantService
         $default = Str::after($default, '//');
 
         $server_name = $default;
-        if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
+        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '127.0.0.1') {
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
 
@@ -89,12 +89,12 @@ class TenantService
         // default
 
         $default = str_replace('.', '-', $default);
-        if (! file_exists(base_path('config/' . $default))) {
+        if (! file_exists(base_path('config/'.$default))) {
             // dd(['localhost' => 'localhost','line' => __LINE__,]);
             return 'localhost';
         }
 
-        if ('' === $default) {
+        if ($default === '') {
             // dd(['localhost' => 'localhost','line' => __LINE__,]);
             return 'localhost';
         }
@@ -110,7 +110,7 @@ class TenantService
      */
     public static function filePath(string $filename): string
     {
-        $path = base_path('config/' . self::getName() . '/' . $filename);
+        $path = base_path('config/'.self::getName().'/'.$filename);
 
         return str_replace(['/', '\\'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $path);
     }
@@ -130,7 +130,7 @@ class TenantService
             return config($key, $default);
         }
         */
-        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== Request::segment(2)) {
+        if (inAdmin() && Str::startsWith($key, 'morph_map') && Request::segment(2) !== null) {
             $module_name = Request::segment(2);
             $models = getModuleModels($module_name);
             $original_conf = config('morph_map');
@@ -159,7 +159,7 @@ class TenantService
                 return $res;
             }
 
-            throw new Exception('[' . __LINE__ . '][' . __FILE__ . ']');
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         $group = collect(explode('.', $key))->first();
@@ -167,7 +167,7 @@ class TenantService
         $original_conf = config($group);
         $tenant_name = self::getName();
 
-        $config_name = str_replace('/', '.', $tenant_name) . '.' . $group;
+        $config_name = str_replace('/', '.', $tenant_name).'.'.$group;
         $extra_conf = config($config_name);
 
         if (! is_array($original_conf)) {
@@ -180,7 +180,7 @@ class TenantService
 
         // -- ogni modulo ha la sua connessione separata
         // -- replicazione liveuser con lu .. tenere lu anche in database
-        if ('database' === $key) {
+        if ($key === 'database') {
             /**
              * @var Collection<\Nwidart\Modules\Module>
              */
@@ -194,16 +194,16 @@ class TenantService
         }
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
-        if (null === $group) {
-            throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
+        if ($group === null) {
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         Config::set($group, $merge_conf);
 
         $res = config($key);
 
-        if (null === $res && null !== $default) {
-            $index = Str::after($key, $group . '.');
+        if ($res === null && $default !== null) {
+            $index = Str::after($key, $group.'.');
             $data = Arr::set($extra_conf, $index, $default);
             /*
             dddx([
@@ -214,19 +214,19 @@ class TenantService
                 'data' => $data,
             ]);
             */
-            throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
             // self::saveConfig($group,$data);
 
             // return $default;
         }
 
         // dddx(gettype($res));//array;
-        if (is_numeric($res) || is_string($res) || is_array($res) || null === $res) {
+        if (is_numeric($res) || is_string($res) || is_array($res) || $res === null) {
             return $res;
         }
 
         dddx($res);
-        throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
+        throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         // return $res;
     }
 
@@ -234,7 +234,7 @@ class TenantService
     {
         $name = self::getName();
 
-        return str_replace('/', '.', $name) . '.' . $key;
+        return str_replace('/', '.', $name).'.'.$key;
     }
 
     public static function saveConfig(string $name, array $data): void
@@ -260,7 +260,7 @@ class TenantService
             ]);
         }
         */
-        $path = self::filePath($name . '.php');
+        $path = self::filePath($name.'.php');
 
         $config_data = [];
         if (File::exists($path)) {
@@ -275,11 +275,11 @@ class TenantService
 
         $config_data = Arr::sortRecursive($config_data);
 
-        $path = self::filePath($name . '.php');
-        $content = '<?php' . chr(13) . chr(13) . ' return ' . var_export($config_data, true) . ';';
+        $path = self::filePath($name.'.php');
+        $content = '<?php'.chr(13).chr(13).' return '.var_export($config_data, true).';';
         $content = str_replace('\\\\', '\\', $content);
 
-        File::put($path . '', $content);
+        File::put($path.'', $content);
     }
 
     /**
@@ -290,13 +290,13 @@ class TenantService
         $name = Str::singular($name);
         $name = Str::snake($name);
 
-        $class = self::config('morph_map.' . $name);
+        $class = self::config('morph_map.'.$name);
 
-        if (null === $class) {
+        if ($class === null) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new Exception('model unknown [' . $name . ']
-                [line:' . __LINE__ . '][' . basename(__FILE__) . ']');
+                throw new Exception('model unknown ['.$name.']
+                [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
             $class = $models[$name];
@@ -324,7 +324,7 @@ class TenantService
         // but returns object.
         // $model = new $class();
         if (! is_string($class)) {
-            throw new Exception('[' . __LINE__ . '][' . class_basename(self::class) . ']');
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         return $class;
@@ -371,10 +371,10 @@ class TenantService
      */
     public static function localizedMarkdownPath(string $name): string
     {
-        preg_replace('#(\.md)$#i', '.' . app()->getLocale() . '$1', $name);
+        preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
         $lang = app()->getLocale();
         $paths = [
-            self::filePath('lang/' . $lang . '/' . $name),
+            self::filePath('lang/'.$lang.'/'.$name),
             self::filePath($name),
         ];
 
@@ -424,7 +424,7 @@ class TenantService
 
         return collect($files)
             ->filter(
-                static fn ($item): bool => 'php' === $item->getExtension()
+                static fn ($item): bool => $item->getExtension() === 'php'
             )
             ->map(
                 static fn ($item, $k): array => [
@@ -452,7 +452,7 @@ class TenantService
                 continue;
             }
 
-            if (! File::exists(base_path('Modules/' . $name))) {
+            if (! File::exists(base_path('Modules/'.$name))) {
                 continue;
             }
 
