@@ -46,7 +46,7 @@ return [
             return;
         }
 
-        return $menuItem->children->contains(static fn ($child): bool => trimPath($page->getPath()) == trimPath($child));
+        return $menuItem->children->contains(fn ($child): bool => trimPath($page->getPath()) == trimPath($child));
     }, /*
     'url' => function ($page, $path) {
         return Str::startsWith($path, 'http') ? $path : '/' . trimPath($path);
