@@ -26,10 +26,10 @@
         "enlightn/enlightn": "^2.5",
         "fakerphp/faker": "*",
         "friendsofphp/php-cs-fixer": "*",
+        "larastan/larastan": "^2.6",
         "laravel/pint": "^1.13",
         "nesbot/carbon": "*",
         "nette/php-generator": "*",
-        "larastan/larastan": "^2.6",
         "nunomaduro/phpinsights": "^2.9",
         "orchestra/testbench": "*",
         "pestphp/pest": "*",
@@ -45,7 +45,7 @@
         "symplify/phpstan-rules": "^12.4",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
-        "vimeo/psalm": "^5.15"
+        "vimeo/psalm": "*"
     },
     "repositories": [
         {
