@@ -457,8 +457,4 @@ class TenantService
 
         return $modules;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> master
