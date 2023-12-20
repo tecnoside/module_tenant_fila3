@@ -26,12 +26,12 @@ class GenerateSitemap
             return;
         }
 
-        $sitemap = new Sitemap($jigsaw->getDestinationPath().'/sitemap.xml');
+        $sitemap = new Sitemap($jigsaw->getDestinationPath() . '/sitemap.xml');
 
         collect($jigsaw->getOutputPaths())
             ->reject(fn ($path) => $this->isExcluded($path))->each(
                 static function (string $path) use ($baseUrl, $sitemap): void {
-                    $sitemap->addItem(rtrim((string) $baseUrl, '/').$path, time(), Sitemap::DAILY);
+                    $sitemap->addItem(rtrim((string) $baseUrl, '/') . $path, time(), Sitemap::DAILY);
                 }
             );
 
