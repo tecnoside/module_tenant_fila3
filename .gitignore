@@ -27,23 +27,14 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 
-<<<<<<< HEAD
-*.stackdump
-*.log
-.git-rewrite
-/docs/package-lock.json 
-/build
-.git-blame-ignore-revs
-.php-cs-fixer.cache
-=======
 *.lock
 package-lock.json
 *.stackdump
 *.cache
 *.log
 .git-rewrite
-package-lock.json 
-/docs/package-lock.json 
+package-lock.json
+/docs/package-lock.json
 *.lock
 /build
 .git-blame-ignore-revs
@@ -57,6 +48,5 @@ package-lock.json
 package-lock.json
 .php-cs-fixer.cache
 package-lock.json
->>>>>>> 99e52f1 (first)
 .git-rewrite/
 .php-cs-fixer.cache
