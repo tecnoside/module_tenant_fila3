@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
-use ReflectionException;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -147,7 +146,7 @@ class TenantService
                 return $res;
             }
 
-            throw new Exception('['.__LINE__.']['.__FILE__.']');
+            throw new \Exception('['.__LINE__.']['.__FILE__.']');
         }
 
         $group = collect(explode('.', $key))->first();
@@ -183,7 +182,7 @@ class TenantService
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
         if (null === $group) {
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         Config::set($group, $merge_conf);
@@ -202,7 +201,7 @@ class TenantService
                 'data' => $data,
             ]);
             */
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
             // self::saveConfig($group,$data);
 
             // return $default;
@@ -214,7 +213,7 @@ class TenantService
         }
 
         dddx($res);
-        throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+        throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         // return $res;
     }
 
@@ -227,7 +226,7 @@ class TenantService
 
     public static function getConfig(string $name): array
     {
-        $path = TenantService::filePath($name.'.php');
+        $path = self::filePath($name.'.php');
         Assert::isArray($data = File::getRequire($path));
 
         return $data;
@@ -286,12 +285,13 @@ class TenantService
         $name = Str::singular($name);
         $name = Str::snake($name);
 
+        // $class = \Illuminate\Database\Eloquent\Relations\Relation::getMorphedModel($name);
         $class = self::config('morph_map.'.$name);
 
         if (null === $class) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new Exception('model unknown ['.$name.']
+                throw new \Exception('model unknown ['.$name.']
                 [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
@@ -320,14 +320,14 @@ class TenantService
         // but returns object.
         // $model = new $class();
         if (! \is_string($class)) {
-            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+            throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
         return $class;
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public static function model(string $name): Model
     {
