@@ -13,16 +13,13 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
-
-use function is_array;
-
 use Modules\Cms\Services\PanelService;
 use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
-
-use function Safe\preg_replace;
-
 use Webmozart\Assert\Assert;
+
+use function is_array;
+use function Safe\preg_replace;
 
 /**
  * Class TenantService.
@@ -50,7 +47,7 @@ class TenantService
         $default = Str::after($default, '//');
 
         $server_name = $default;
-        if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
+        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '127.0.0.1') {
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
 
@@ -83,7 +80,7 @@ class TenantService
             return 'localhost';
         }
 
-        if ('' === $default) {
+        if ($default === '') {
             return 'localhost';
         }
 
@@ -108,7 +105,7 @@ class TenantService
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
      *
-     * @param string|int|array|null $default
+     * @param  string|int|array|null  $default
      */
     public static function config(string $key, $default = null): float|int|string|array|null
     {
@@ -117,7 +114,7 @@ class TenantService
             return config($key, $default);
         }
         */
-        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== Request::segment(2)) {
+        if (inAdmin() && Str::startsWith($key, 'morph_map') && Request::segment(2) !== null) {
             $module_name = Request::segment(2);
             $models = getModuleModels($module_name);
             $original_conf = config('morph_map');
@@ -167,7 +164,7 @@ class TenantService
 
         // -- ogni modulo ha la sua connessione separata
         // -- replicazione liveuser con lu .. tenere lu anche in database
-        if ('database' === $key) {
+        if ($key === 'database') {
             /**
              * @var Collection<\Nwidart\Modules\Module>
              */
@@ -181,7 +178,7 @@ class TenantService
         }
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
-        if (null === $group) {
+        if ($group === null) {
             throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
@@ -189,7 +186,7 @@ class TenantService
 
         $res = config($key);
 
-        if (null === $res && null !== $default) {
+        if ($res === null && $default !== null) {
             $index = Str::after($key, $group.'.');
             $data = Arr::set($extra_conf, $index, $default);
             /*
@@ -208,7 +205,7 @@ class TenantService
         }
 
         // dddx(gettype($res));//array;
-        if (is_numeric($res) || \is_string($res) || \is_array($res) || null === $res) {
+        if (is_numeric($res) || \is_string($res) || \is_array($res) || $res === null) {
             return $res;
         }
 
@@ -288,7 +285,7 @@ class TenantService
         // $class = \Illuminate\Database\Eloquent\Relations\Relation::getMorphedModel($name);
         $class = self::config('morph_map.'.$name);
 
-        if (null === $class) {
+        if ($class === null) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
                 throw new \Exception('model unknown ['.$name.']
@@ -420,7 +417,7 @@ class TenantService
 
         return collect($files)
             ->filter(
-                static fn ($item): bool => 'php' === $item->getExtension()
+                static fn ($item): bool => $item->getExtension() === 'php'
             )
             ->map(
                 static fn ($item, $k): array => [
