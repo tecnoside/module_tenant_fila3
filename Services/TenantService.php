@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
+<<<<<<< HEAD
+=======
+use ReflectionException;
+>>>>>>> dev
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -13,6 +17,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
 use Modules\Cms\Services\PanelService;
 use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
@@ -21,6 +26,19 @@ use Webmozart\Assert\Assert;
 use function is_array;
 use function Safe\preg_replace;
 
+=======
+
+use function is_array;
+
+use Modules\Cms\Services\PanelService;
+use Modules\Xot\Services\FileService;
+use Nwidart\Modules\Facades\Module;
+
+use function Safe\preg_replace;
+
+use Webmozart\Assert\Assert;
+
+>>>>>>> dev
 /**
  * Class TenantService.
  */
@@ -47,7 +65,11 @@ class TenantService
         $default = Str::after($default, '//');
 
         $server_name = $default;
+<<<<<<< HEAD
         if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '127.0.0.1') {
+=======
+        if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
+>>>>>>> dev
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
 
@@ -80,7 +102,11 @@ class TenantService
             return 'localhost';
         }
 
+<<<<<<< HEAD
         if ($default === '') {
+=======
+        if ('' === $default) {
+>>>>>>> dev
             return 'localhost';
         }
 
@@ -105,7 +131,11 @@ class TenantService
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
      *
+<<<<<<< HEAD
      * @param  string|int|array|null  $default
+=======
+     * @param string|int|array|null $default
+>>>>>>> dev
      */
     public static function config(string $key, $default = null): float|int|string|array|null
     {
@@ -114,7 +144,11 @@ class TenantService
             return config($key, $default);
         }
         */
+<<<<<<< HEAD
         if (inAdmin() && Str::startsWith($key, 'morph_map') && Request::segment(2) !== null) {
+=======
+        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== Request::segment(2)) {
+>>>>>>> dev
             $module_name = Request::segment(2);
             $models = getModuleModels($module_name);
             $original_conf = config('morph_map');
@@ -143,7 +177,11 @@ class TenantService
                 return $res;
             }
 
+<<<<<<< HEAD
             throw new \Exception('['.__LINE__.']['.__FILE__.']');
+=======
+            throw new Exception('['.__LINE__.']['.__FILE__.']');
+>>>>>>> dev
         }
 
         $group = collect(explode('.', $key))->first();
@@ -164,7 +202,11 @@ class TenantService
 
         // -- ogni modulo ha la sua connessione separata
         // -- replicazione liveuser con lu .. tenere lu anche in database
+<<<<<<< HEAD
         if ($key === 'database') {
+=======
+        if ('database' === $key) {
+>>>>>>> dev
             /**
              * @var Collection<\Nwidart\Modules\Module>
              */
@@ -178,15 +220,24 @@ class TenantService
         }
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
+<<<<<<< HEAD
         if ($group === null) {
             throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+=======
+        if (null === $group) {
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+>>>>>>> dev
         }
 
         Config::set($group, $merge_conf);
 
         $res = config($key);
 
+<<<<<<< HEAD
         if ($res === null && $default !== null) {
+=======
+        if (null === $res && null !== $default) {
+>>>>>>> dev
             $index = Str::after($key, $group.'.');
             $data = Arr::set($extra_conf, $index, $default);
             /*
@@ -198,19 +249,31 @@ class TenantService
                 'data' => $data,
             ]);
             */
+<<<<<<< HEAD
             throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+=======
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+>>>>>>> dev
             // self::saveConfig($group,$data);
 
             // return $default;
         }
 
         // dddx(gettype($res));//array;
+<<<<<<< HEAD
         if (is_numeric($res) || \is_string($res) || \is_array($res) || $res === null) {
+=======
+        if (is_numeric($res) || \is_string($res) || \is_array($res) || null === $res) {
+>>>>>>> dev
             return $res;
         }
 
         dddx($res);
+<<<<<<< HEAD
         throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+=======
+        throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+>>>>>>> dev
         // return $res;
     }
 
@@ -223,7 +286,11 @@ class TenantService
 
     public static function getConfig(string $name): array
     {
+<<<<<<< HEAD
         $path = self::filePath($name.'.php');
+=======
+        $path = TenantService::filePath($name.'.php');
+>>>>>>> dev
         Assert::isArray($data = File::getRequire($path));
 
         return $data;
@@ -282,6 +349,7 @@ class TenantService
         $name = Str::singular($name);
         $name = Str::snake($name);
 
+<<<<<<< HEAD
         // $class = \Illuminate\Database\Eloquent\Relations\Relation::getMorphedModel($name);
         $class = self::config('morph_map.'.$name);
 
@@ -289,6 +357,14 @@ class TenantService
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
                 throw new \Exception('model unknown ['.$name.']
+=======
+        $class = self::config('morph_map.'.$name);
+
+        if (null === $class) {
+            $models = getAllModulesModels();
+            if (! isset($models[$name])) {
+                throw new Exception('model unknown ['.$name.']
+>>>>>>> dev
                 [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
@@ -317,14 +393,22 @@ class TenantService
         // but returns object.
         // $model = new $class();
         if (! \is_string($class)) {
+<<<<<<< HEAD
             throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
+=======
+            throw new Exception('['.__LINE__.']['.class_basename(self::class).']');
+>>>>>>> dev
         }
 
         return $class;
     }
 
     /**
+<<<<<<< HEAD
      * @throws \ReflectionException
+=======
+     * @throws ReflectionException
+>>>>>>> dev
      */
     public static function model(string $name): Model
     {
@@ -417,7 +501,11 @@ class TenantService
 
         return collect($files)
             ->filter(
+<<<<<<< HEAD
                 static fn ($item): bool => $item->getExtension() === 'php'
+=======
+                static fn ($item): bool => 'php' === $item->getExtension()
+>>>>>>> dev
             )
             ->map(
                 static fn ($item, $k): array => [
