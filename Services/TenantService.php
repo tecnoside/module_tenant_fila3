@@ -231,27 +231,7 @@ class TenantService
 
     public static function saveConfig(string $name, array $data): void
     {
-        /*
-        $tennant_name = self::getName();
-        $config_name = $tennant_name.'.'.$name;
-        $config_data = config($config_name);
 
-        if (! is_array($config_data)) {
-            $config_name = str_replace('/', '.', $config_name);
-            $config_data = config($config_name);
-        }
-        if (! is_array($config_data)) {
-            dddx([
-                'config_name' => $config_name,
-                'config_data' => $config_data,
-                'params' => $params,
-                'test' => config('ptvx-local'),
-                'test1' => config_path('ptvx-local/morph_map.php'),
-                'test1a' => self::filePath($name.'.php'),
-                'test2' => File::getRequire(config_path('ptvx-local/morph_map.php')),
-            ]);
-        }
-        */
         $path = self::filePath($name.'.php');
 
         $config_data = [];
