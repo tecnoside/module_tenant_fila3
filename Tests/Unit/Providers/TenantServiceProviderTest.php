@@ -21,7 +21,11 @@ final class TenantServiceProviderTest extends TestCase
     {
         parent::setUp();
 
-        /** @todo Correctly instantiate tested object to use it. */
+        /**
+* 
+         *
+ * @todo Correctly instantiate tested object to use it. 
+*/
         $this->tenantServiceProvider = new TenantServiceProvider();
     }
 
@@ -37,13 +41,21 @@ final class TenantServiceProviderTest extends TestCase
 
     public function testBootCallback(): void
     {
-        /** @todo This test is incomplete. */
+        /**
+* 
+         *
+ * @todo This test is incomplete. 
+*/
         self::markTestIncomplete();
     }
 
     public function testMergeConfigs(): void
     {
-        /** @todo This test is incomplete. */
+        /**
+* 
+         *
+ * @todo This test is incomplete. 
+*/
         self::markTestIncomplete();
     }
 }

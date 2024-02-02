@@ -105,7 +105,7 @@ class TenantService
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
      *
-     * @param  string|int|array|null  $default
+     * @param string|int|array|null $default
      */
     public static function config(string $key, $default = null): float|int|string|array|null
     {
@@ -268,8 +268,10 @@ class TenantService
         if ($class === null) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new \Exception('model unknown ['.$name.']
-                [line:'.__LINE__.']['.basename(__FILE__).']');
+                throw new \Exception(
+                    'model unknown ['.$name.']
+                [line:'.__LINE__.']['.basename(__FILE__).']'
+                );
             }
 
             $class = $models[$name];

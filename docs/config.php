@@ -32,7 +32,7 @@ return [
     'docsearchIndexName' => env('DOCSEARCH_INDEX'),
 
     // navigation menu
-    'navigation' => require_once(__DIR__.'/navigation.php'),
+    'navigation' => include_once __DIR__.'/navigation.php',
 
     // helpers
     'isActive' => static fn ($page, $path) => Str::endsWith(trimPath($page->getPath()), trimPath($path)),
