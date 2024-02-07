@@ -36,12 +36,12 @@
         "pestphp/pest-plugin-laravel": "*",
         "phpunit/phpunit": "*",
         "psalm/plugin-laravel": "^2.8",
-        "symplify/phpstan-rules": "*",
         "rector/rector": "*",
         "spatie/laravel-typescript-transformer": "*",
         "spatie/pest-plugin-snapshots": "*",
         "spatie/phpunit-snapshot-assertions": "*",
         "spatie/test-time": "*",
+        "symplify/phpstan-rules": "*",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
