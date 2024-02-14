@@ -9,19 +9,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
+use function is_array;
 use Modules\Tenant\Services\TenantService;
 use Modules\Xot\Providers\XotBaseServiceProvider;
-
-use function is_array;
 use function Safe\realpath;
 
 class TenantServiceProvider extends XotBaseServiceProvider
 {
+
+    public string $module_name = 'tenant';
     protected string $module_dir = __DIR__;
 
     protected string $module_ns = __NAMESPACE__;
-
-    public string $module_name = 'tenant';
 
     public function bootCallback(): void
     {

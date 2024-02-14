@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Tenant\Services;
 
 // use Illuminate\Support\Facades\Storage;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -13,13 +12,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
-use Modules\Cms\Services\PanelService;
 use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
-use Webmozart\Assert\Assert;
-
-use function is_array;
 use function Safe\preg_replace;
+use Webmozart\Assert\Assert;
 
 /**
  * Class TenantService.
@@ -104,10 +100,8 @@ class TenantService
      * tenant config.
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
-     *
-     * @param string|int|array|null $default
      */
-    public static function config(string $key, $default = null): float|int|string|array|null
+    public static function config(string $key, string|int|array|null $default = null): float|int|string|array|null
     {
         /*
         if(app()->runningInConsole()){
@@ -231,7 +225,6 @@ class TenantService
 
     public static function saveConfig(string $name, array $data): void
     {
-
         $path = self::filePath($name.'.php');
 
         $config_data = [];
@@ -368,7 +361,7 @@ class TenantService
     /**
      * @return array
      */
-    public static function getConfigNames()
+    public static function getConfigNames(): array
     {
         $name = self::getName();
         // if (app()->runningInConsole()) {
