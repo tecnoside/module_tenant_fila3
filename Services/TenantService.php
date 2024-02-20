@@ -157,7 +157,7 @@ class TenantService
         }
 
         // -- ogni modulo ha la sua connessione separata
-        // -- replicazione liveuser con lu .. tenere lu anche in database
+        // -- replicazione liveuser con lu.. tenere lu anche in database
         if ($key === 'database') {
             /**
              * @var Collection<\Nwidart\Modules\Module>
