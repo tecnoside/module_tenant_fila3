@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Modules\Tenant\Services;
 
 use Modules\Tenant\Services\TenantService;
@@ -22,9 +24,9 @@ final class TenantServiceTest extends TestCase
         parent::setUp();
 
         /**
-* 
+*
          *
- * @todo Correctly instantiate tested object to use it. 
+ * @todo Correctly instantiate tested object to use it.
 */
         $this->tenantService = new TenantService();
     }
@@ -42,9 +44,9 @@ final class TenantServiceTest extends TestCase
     public function testGetName(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -52,9 +54,9 @@ final class TenantServiceTest extends TestCase
     public function testFilePath(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -62,9 +64,9 @@ final class TenantServiceTest extends TestCase
     public function testConfig(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -72,9 +74,9 @@ final class TenantServiceTest extends TestCase
     public function testGetConfigPath(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -82,9 +84,9 @@ final class TenantServiceTest extends TestCase
     public function testGetConfig(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -92,9 +94,9 @@ final class TenantServiceTest extends TestCase
     public function testSaveConfig(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -102,9 +104,9 @@ final class TenantServiceTest extends TestCase
     public function testModelClass(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -112,9 +114,9 @@ final class TenantServiceTest extends TestCase
     public function testModel(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -122,9 +124,9 @@ final class TenantServiceTest extends TestCase
     public function testLocalizedMarkdownPath(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -132,9 +134,9 @@ final class TenantServiceTest extends TestCase
     public function testGetConfigNames(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }
@@ -142,9 +144,9 @@ final class TenantServiceTest extends TestCase
     public function testAllModules(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }

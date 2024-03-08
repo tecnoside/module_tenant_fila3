@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Tenant\Tests\Unit\Database\Seeders;
 
 use Modules\Tenant\Database\Seeders\TenantDatabaseSeeder;
@@ -22,9 +24,9 @@ final class TenantDatabaseSeederTest extends TestCase
         parent::setUp();
 
         /**
-* 
+*
          *
- * @todo Correctly instantiate tested object to use it. 
+ * @todo Correctly instantiate tested object to use it.
 */
         $this->tenantDatabaseSeeder = new TenantDatabaseSeeder();
     }
@@ -42,9 +44,9 @@ final class TenantDatabaseSeederTest extends TestCase
     public function testRun(): void
     {
         /**
-* 
+*
          *
- * @todo This test is incomplete. 
+ * @todo This test is incomplete.
 */
         self::markTestIncomplete();
     }

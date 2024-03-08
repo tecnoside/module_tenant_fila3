@@ -1,4 +1,4 @@
-<?php
+trict_types=1);
 
 namespace Modules\Tenant\Http\Controllers;
 
@@ -103,5 +103,3 @@ return view($view,$view_params);
     public function destroy($id)
     {
         //
-    }
-}
