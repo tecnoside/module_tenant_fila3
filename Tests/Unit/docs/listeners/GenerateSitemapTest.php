@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\Listeners;
+declare(strict_types=1);
+
+namespace Modules\Tenant\Tests\Unit\docs\listeners;
 
 use App\Listeners\GenerateSitemap;
-use Mockery;
 use Tests\TestCase;
 use TightenCo\Jigsaw\Jigsaw;
 
@@ -12,28 +13,22 @@ use TightenCo\Jigsaw\Jigsaw;
  *
  * @covers \App\Listeners\GenerateSitemap
  */
-final class GenerateSitemapTest extends TestCase
+class GenerateSitemapTest extends TestCase
 {
     private GenerateSitemap $generateSitemap;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        /**
-* 
+        /*
          *
- * @todo Correctly instantiate tested object to use it. 
-*/
+         *
+         * @todo Correctly instantiate tested object to use it.
+         */
         $this->generateSitemap = new GenerateSitemap();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -43,23 +38,23 @@ final class GenerateSitemapTest extends TestCase
 
     public function testHandle(): void
     {
-        $jigsaw = Mockery::mock(Jigsaw::class);
+        $jigsaw = \Mockery::mock(Jigsaw::class);
 
-        /**
-* 
+        /*
          *
- * @todo This test is incomplete. 
-*/
+         *
+         * @todo This test is incomplete.
+         */
         $this->generateSitemap->handle($jigsaw);
     }
 
     public function testIsExcluded(): void
     {
-        /**
-* 
+        /*
          *
- * @todo This test is incomplete. 
-*/
+         *
+         * @todo This test is incomplete.
+         */
         self::markTestIncomplete();
     }
 }
