@@ -18,8 +18,6 @@ return [
     'favicon' => '::img/favicon.ico',
     'logo_header_dark' => 'xot::img/logo.png',
     'logo_header' => 'xot::img/logo.png',
-    'logo_header_dark' => 'xot::img/logo.png',
-    'logo_header' => 'xot::img/logo.png',
     'logo_img' => 'xot::img/logo.png',
     'logo_square' => 'xot::img/logo.png',
     'logo_footer_img' => 'xot::img/logo.png',
