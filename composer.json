@@ -26,7 +26,7 @@
         "enlightn/enlightn": "^2.5",
         "fakerphp/faker": "*",
         "friendsofphp/php-cs-fixer": "*",
-        "larastan/larastan": "^2.6",
+        "larastan/larastan": "*",
         "laravel/pint": "^1.13",
         "nesbot/carbon": "*",
         "nette/php-generator": "*",
@@ -91,7 +91,8 @@
         "allow-plugins": {
             "phpstan/extension-installer": true,
             "pestphp/pest-plugin": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "wikimedia/composer-merge-plugin": true
         }
     },
     "minimum-stability": "dev",

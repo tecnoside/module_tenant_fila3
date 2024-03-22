@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
+
 use function Safe\preg_replace;
+
 use Webmozart\Assert\Assert;
 
 /**
@@ -43,11 +45,11 @@ class TenantService
         $default = Str::after($default, '//');
 
         $server_name = $default;
-        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '127.0.0.1') {
+        if (isset($_SERVER['SERVER_NAME']) && '127.0.0.1' !== $_SERVER['SERVER_NAME']) {
             $server_name = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
         }
-        $server_name = Str::of($server_name)->replace('www.','')->toString();
-        //Assert::string($server_name = Str::replace('www.', '', $server_name), 'wip');
+        $server_name = Str::of($server_name)->replace('www.', '')->toString();
+        // Assert::string($server_name = Str::replace('www.', '', $server_name), 'wip');
         // */
         // $server_name = getServerName();
         // die('<pre>'.print_r($_SERVER,true).'</pre>');
@@ -76,7 +78,7 @@ class TenantService
             return 'localhost';
         }
 
-        if ($default === '') {
+        if ('' === $default) {
             return 'localhost';
         }
 
@@ -90,6 +92,11 @@ class TenantService
      */
     public static function filePath(string $filename): string
     {
+        $testbench = realpath(__DIR__.'/../vendor/orchestra');
+        if (Str::startsWith(base_path(), $testbench)) {
+            return realpath(__DIR__.'/../Config').DIRECTORY_SEPARATOR.$filename;
+        }
+
         $path = base_path('config/'.self::getName().'/'.$filename);
 
         return str_replace(['/', '\\'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $path);
@@ -101,14 +108,14 @@ class TenantService
      * ret_old \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed.
      * ret_old1 \Illuminate\Config\Repository|mixed.
      */
-    public static function config(string $key, string|int|array|null $default = null): float|int|string|array|null
+    public static function config(string $key, string|int|array $default = null): float|int|string|array|null
     {
         /*
         if(app()->runningInConsole()){
             return config($key, $default);
         }
         */
-        if (inAdmin() && Str::startsWith($key, 'morph_map') && Request::segment(2) !== null) {
+        if (inAdmin() && Str::startsWith($key, 'morph_map') && null !== Request::segment(2)) {
             $module_name = Request::segment(2);
             $models = getModuleModels($module_name);
             $original_conf = config('morph_map');
@@ -158,7 +165,7 @@ class TenantService
 
         // -- ogni modulo ha la sua connessione separata
         // -- replicazione liveuser con lu.. tenere lu anche in database
-        if ($key === 'database') {
+        if ('database' === $key) {
             /**
              * @var Collection<\Nwidart\Modules\Module>
              */
@@ -172,7 +179,7 @@ class TenantService
         }
 
         $merge_conf = collect($original_conf)->merge($extra_conf)->all();
-        if ($group === null) {
+        if (null === $group) {
             throw new \Exception('['.__LINE__.']['.class_basename(self::class).']');
         }
 
@@ -180,7 +187,7 @@ class TenantService
 
         $res = config($key);
 
-        if ($res === null && $default !== null) {
+        if (null === $res && null !== $default) {
             $index = Str::after($key, $group.'.');
             $data = Arr::set($extra_conf, $index, $default);
             /*
@@ -199,7 +206,7 @@ class TenantService
         }
 
         // dddx(gettype($res));//array;
-        if (is_numeric($res) || \is_string($res) || \is_array($res) || $res === null) {
+        if (is_numeric($res) || \is_string($res) || \is_array($res) || null === $res) {
             return $res;
         }
 
@@ -258,13 +265,11 @@ class TenantService
         // $class = \Illuminate\Database\Eloquent\Relations\Relation::getMorphedModel($name);
         $class = self::config('morph_map.'.$name);
 
-        if ($class === null) {
+        if (null === $class) {
             $models = getAllModulesModels();
             if (! isset($models[$name])) {
-                throw new \Exception(
-                    'model unknown ['.$name.']
-                [line:'.__LINE__.']['.basename(__FILE__).']'
-                );
+                throw new \Exception('model unknown ['.$name.']
+                [line:'.__LINE__.']['.basename(__FILE__).']');
             }
 
             $class = $models[$name];
@@ -358,9 +363,6 @@ class TenantService
         return $path;
     }
 
-    /**
-     * @return array
-     */
     public static function getConfigNames(): array
     {
         $name = self::getName();
@@ -392,7 +394,7 @@ class TenantService
 
         return collect($files)
             ->filter(
-                static fn ($item): bool => $item->getExtension() === 'php'
+                static fn ($item): bool => 'php' === $item->getExtension()
             )
             ->map(
                 static fn ($item, $k): array => [
