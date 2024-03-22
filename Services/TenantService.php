@@ -92,8 +92,7 @@ class TenantService
      */
     public static function filePath(string $filename): string
     {
-        $testbench = realpath(__DIR__.'/../vendor/orchestra');
-        if (Str::startsWith(base_path(), $testbench)) {
+        if (isRunningTestBench()) {
             return realpath(__DIR__.'/../Config').DIRECTORY_SEPARATOR.$filename;
         }
 
