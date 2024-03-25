@@ -26,6 +26,7 @@ parameters:
         - ./docs/*
         - ./Tests/*
         - ./_ide_helper.php
+        - ./rector.php
 
     bootstrapFiles:
         #- ./Services/vendor/autoload.php

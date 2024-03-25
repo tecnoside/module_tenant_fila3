@@ -16,6 +16,7 @@ use Modules\Xot\Services\FileService;
 use Nwidart\Modules\Facades\Module;
 
 use function Safe\preg_replace;
+use function Safe\realpath;
 
 use Webmozart\Assert\Assert;
 
