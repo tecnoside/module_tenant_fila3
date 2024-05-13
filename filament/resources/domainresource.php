@@ -81,7 +81,7 @@ class DomainResource extends Resource
                 TextColumn::make('brand')
                     ->searchable()
                     ->sortable()
-                    ->color('secondary')
+                    ->color('gray')
                     ->alignLeft(),
 
                 // category
