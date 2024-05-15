@@ -45,7 +45,7 @@ class GetDomainsArrayAction
         return $res;
     }
 
-    public function collapse(array $data, string $k = '')
+    public function collapse(array $data, string $k = ''): array
     {
         $res = [];
         foreach ($data as $k0 => $v0) {
