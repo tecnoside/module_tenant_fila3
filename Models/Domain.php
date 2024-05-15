@@ -15,7 +15,7 @@ class Domain extends Model
     /**
      * Model Rows.
      *
-     * @return void
+     * @return array
      */
     public function getRows()
     {
