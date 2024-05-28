@@ -31,11 +31,11 @@
         "nesbot/carbon": "*",
         "nette/php-generator": "*",
         "nunomaduro/phpinsights": "^2.9",
-        "orchestra/testbench": "^8.22",
+        "orchestra/testbench": "*",
         "pestphp/pest": "*",
         "pestphp/pest-plugin-laravel": "*",
         "phpunit/phpunit": "*",
-        "psalm/plugin-laravel": "^2.8",
+        
         "rector/rector": "*",
         "spatie/laravel-typescript-transformer": "*",
         "spatie/pest-plugin-snapshots": "*",
