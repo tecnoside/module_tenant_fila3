@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
-use function is_array;
 use Modules\Tenant\Services\TenantService;
 use Modules\Xot\Providers\XotBaseServiceProvider;
+
 use function Safe\realpath;
 
 class TenantServiceProvider extends XotBaseServiceProvider
 {
-
     public string $module_name = 'tenant';
     protected string $module_dir = __DIR__;
 
@@ -26,7 +25,7 @@ class TenantServiceProvider extends XotBaseServiceProvider
     {
         $this->mergeConfigs();
 
-        if (Request::has('act') && Request::input('act') === 'migrate') {
+        if (Request::has('act') && 'migrate' === Request::input('act')) {
             DB::purge('mysql'); // Call to a member function prepare() on null
             DB::reconnect('mysql');
         }
@@ -37,11 +36,16 @@ class TenantServiceProvider extends XotBaseServiceProvider
         Schema::defaultStringLength(191);
 
         $map = TenantService::config('morph_map');
-        if (! is_array($map)) {
+        if (! \is_array($map)) {
             $map = [];
         }
 
         Relation::morphMap($map);
+    }
+
+    public function registerCallback(): void
+    {
+        $this->app->register(Filament\AdminPanelProvider::class);
     }
 
     public function mergeConfigs(): void
