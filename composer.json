@@ -17,10 +17,13 @@
         "role": "Developer"
     }],
     "require": {
-        "laraxot/module_xot_fila3": "dev-master",
+        
         "thecodingmachine/safe": "^2.5"
     },
-    "require-dev": {
+    "require_comment": {
+        "laraxot/module_xot_fila3": "*"
+    },
+    "require-dev_comment": {
         "barryvdh/laravel-ide-helper": "*",
         "driftingly/rector-laravel": "^0.26.2",
         "enlightn/enlightn": "^2.5",
@@ -31,11 +34,10 @@
         "nesbot/carbon": "*",
         "nette/php-generator": "*",
         "nunomaduro/phpinsights": "^2.9",
-        "orchestra/testbench": "^8.22",
+        "orchestra/testbench": "*",
         "pestphp/pest": "*",
         "pestphp/pest-plugin-laravel": "*",
         "phpunit/phpunit": "*",
-        "psalm/plugin-laravel": "^2.8",
         "rector/rector": "*",
         "spatie/laravel-typescript-transformer": "*",
         "spatie/pest-plugin-snapshots": "*",
@@ -64,7 +66,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Tenant\\Providers\\TenantServiceProvider"
+                "Modules\\Tenant\\Providers\\TenantServiceProvider",
+                "Modules\\Tenant\\Providers\\Filament\\AdminPanelProvider"
             ],
             "aliases": {}
         }
