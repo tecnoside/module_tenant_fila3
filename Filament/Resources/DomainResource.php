@@ -67,8 +67,8 @@ class DomainResource extends Resource
             ->columns([
                 // thumbnail
                 ImageColumn::make('thumbnail')
-                ->label('Image')
-                ->rounded(),
+                    ->label('Image')
+                    ->rounded(),
 
                 // title
                 TextColumn::make('title')
@@ -104,23 +104,23 @@ class DomainResource extends Resource
 
                 // rating
                 BadgeColumn::make('rating')
-                ->colors([
-                    'danger' => static fn ($state): bool => $state <= 3,
-                    'warning' => static fn ($state): bool => $state > 3 && $state <= 4.5,
-                    'success' => static fn ($state): bool => $state > 4.5,
-                ])
-                ->sortable()
-                ->searchable(),
+                    ->colors([
+                        'danger' => static fn ($state): bool => $state <= 3,
+                        'warning' => static fn ($state): bool => $state > 3 && $state <= 4.5,
+                        'success' => static fn ($state): bool => $state > 4.5,
+                    ])
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 // brand
                 SelectFilter::make('brand')
-                ->multiple()
-                ->options(Domain::select('brand')
-                    ->distinct()
-                    ->get()
-                    ->pluck('brand', 'brand')
-                ),
+                    ->multiple()
+                    ->options(Domain::select('brand')
+                        ->distinct()
+                        ->get()
+                        ->pluck('brand', 'brand')
+                    ),
 
                 // category
                 SelectFilter::make('category')

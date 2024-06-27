@@ -17,6 +17,7 @@ use function Safe\realpath;
 class TenantServiceProvider extends XotBaseServiceProvider
 {
     public string $module_name = 'tenant';
+
     protected string $module_dir = __DIR__;
 
     protected string $module_ns = __NAMESPACE__;
@@ -25,7 +26,7 @@ class TenantServiceProvider extends XotBaseServiceProvider
     {
         $this->mergeConfigs();
 
-        if (Request::has('act') && 'migrate' === Request::input('act')) {
+        if (Request::has('act') && Request::input('act') === 'migrate') {
             DB::purge('mysql'); // Call to a member function prepare() on null
             DB::reconnect('mysql');
         }

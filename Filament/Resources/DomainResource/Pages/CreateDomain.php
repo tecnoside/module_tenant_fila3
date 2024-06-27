@@ -2,9 +2,8 @@
 
 namespace Modules\Tenant\Filament\Resources\DomainResource\Pages;
 
-use Modules\Tenant\Filament\Resources\DomainResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Modules\Tenant\Filament\Resources\DomainResource;
 
 class CreateDomain extends CreateRecord
 {
