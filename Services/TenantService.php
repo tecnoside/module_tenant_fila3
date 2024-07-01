@@ -165,14 +165,14 @@ class TenantService
         // -- ogni modulo ha la sua connessione separata
         // -- replicazione liveuser con lu.. tenere lu anche in database
         if ($key === 'database') {
-            $default=Arr::get($extra_conf,'default',null);
-            if($default==null){
-                $default=Arr::get($original_conf,'default',null);
+            $default = Arr::get($extra_conf, 'default', null);
+            if ($default == null) {
+                $default = Arr::get($original_conf, 'default', null);
             }
-            if($default==null){
-                $default='mysql';
+            if ($default == null) {
+                $default = 'mysql';
             }
-            
+
             /**
              * @var Collection<\Nwidart\Modules\Module>
              */
