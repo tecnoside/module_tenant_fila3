@@ -48,7 +48,7 @@
         "tightenco/duster": "*",
         "vimeo/psalm": "*"
     },
-    "repositories": [
+    "repositories_comment": [
         {
             "type": "path",
             "url": "../User"
