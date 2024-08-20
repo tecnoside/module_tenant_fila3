@@ -9,32 +9,29 @@
     <meta name="generator" content="Retype 3.5.0">
 
     <!-- Primary Meta Tags -->
-    <title>LICENSE</title>
-    <meta name="title" content="LICENSE">
-    <meta name="description" content="The MIT License (MIT)">
+    <title>Event sourcing</title>
+    <meta name="title" content="Event sourcing">
 
     <!-- Canonical -->
-    <link rel="canonical" href="/license/">
+    <link rel="canonical" href="/docs/it/config/event-sourcing/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="/license/">
-    <meta property="og:title" content="LICENSE">
-    <meta property="og:description" content="The MIT License (MIT)">
+    <meta property="og:url" content="/docs/it/config/event-sourcing/">
+    <meta property="og:title" content="Event sourcing">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="/license/">
-    <meta property="twitter:title" content="LICENSE">
-    <meta property="twitter:description" content="The MIT License (MIT)">
+    <meta property="twitter:url" content="/docs/it/config/event-sourcing/">
+    <meta property="twitter:title" content="Event sourcing">
 
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
-    <link href="../resources/css/retype.css?v=3.5.0.777483210097" rel="stylesheet">
+    <link href="../../../../resources/css/retype.css?v=3.5.0.777483210097" rel="stylesheet">
 
-    <script data-cfasync="false" src="../resources/js/config.js?v=3.5.0.777483210097" data-turbo-eval="false" defer></script>
-    <script data-cfasync="false" src="../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../resources/js/lunr.js?v=3.5.0.777483210097" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../../resources/js/config.js?v=3.5.0.777483210097" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../../../resources/js/lunr.js?v=3.5.0.777483210097" data-turbo-eval="false" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -49,7 +46,7 @@
                 <!-- Logo -->
                 <div class="flex items-center justify-between h-full py-2 md:w-75">
                     <div class="flex items-center px-2 md:px-6">
-                        <a id="docs-site-logo" href="../" class="flex items-center leading-snug text-2xl">
+                        <a id="docs-site-logo" href="../../../../" class="flex items-center leading-snug text-2xl">
                             <span class="dark:text-white font-semibold line-clamp-1 md:line-clamp-2">Project Name</span>
                         </a><span class="hidden px-2 py-1 ml-4 text-sm font-semibold leading-none text-root-logo-label-text bg-root-logo-label-bg rounded-sm md:inline-block">Docs</span>
                     </div>
@@ -163,29 +160,141 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="docs-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="license" class="break-words">
+<doc-anchor-target id="event-sourcing" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#license">#</doc-anchor-trigger>
-        <span>LICENSE</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#event-sourcing">#</doc-anchor-trigger>
+        <span>Event sourcing</span>
     </h1>
 </doc-anchor-target>
-<p>The MIT License (MIT)</p>
-<p>Copyright (c) :vendor_name <a href="mailto:author@domain.com">author@domain.com</a></p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</p>
+<?php
+
+return [
+
+    /*
+     * These directories will be scanned for projectors and reactors. They
+     * will be registered to Projectionist automatically.
+     */
+    'auto_discover_projectors_and_reactors' => [
+        app()->path(),
+    ],
+
+    /*
+     * This directory will be used as the base path when scanning
+     * for projectors and reactors.
+     */
+    'auto_discover_base_path' => base_path(),
+
+    /*
+     * Projectors are classes that build up projections. You can create them by performing
+     * `php artisan event-sourcing:create-projector`. When not using auto-discovery,
+     * Projectors can be registered in this array or a service provider.
+     */
+    'projectors' => [
+        // App\Projectors\YourProjector::class
+    ],
+
+    /*
+     * Reactors are classes that handle side-effects. You can create them by performing
+     * `php artisan event-sourcing:create-reactor`. When not using auto-discovery
+     * Reactors can be registered in this array or a service provider.
+     */
+    'reactors' => [
+        // App\Reactors\YourReactor::class
+    ],
+
+    /*
+     * A queue is used to guarantee that all events get passed to the projectors in
+     * the right order. Here you can set of the name of the queue.
+     */
+    'queue' => env('EVENT_PROJECTOR_QUEUE_NAME', null),
+
+    /*
+     * When a Projector or Reactor throws an exception the event Projectionist can catch it
+     * so all other projectors and reactors can still do their work. The exception will
+     * be passed to the `handleException` method on that Projector or Reactor.
+     */
+    'catch_exceptions' => env('EVENT_PROJECTOR_CATCH_EXCEPTIONS', false),
+
+    /*
+     * This class is responsible for storing events in the EloquentStoredEventRepository.
+     * To add extra behaviour you can change this to a class of your own. It should
+     * extend the \Spatie\EventSourcing\StoredEvents\Models\EloquentStoredEvent model.
+     */
+    'stored_event_model' => Modules\Activity\Models\StoredEvent::class,
+
+    /*
+     * This class is responsible for storing events. To add extra behaviour you
+     * can change this to a class of your own. The only restriction is that
+     * it should implement \Spatie\EventSourcing\StoredEvents\Repositories\EloquentStoredEventRepository.
+     */
+    'stored_event_repository' => Spatie\EventSourcing\StoredEvents\Repositories\EloquentStoredEventRepository::class,
+
+    /*
+     * This class is responsible for storing snapshots. To add extra behaviour you
+     * can change this to a class of your own. The only restriction is that
+     * it should implement \Spatie\EventSourcing\Snapshots\EloquentSnapshotRepository.
+     */
+    'snapshot_repository' => Spatie\EventSourcing\Snapshots\EloquentSnapshotRepository::class,
+
+    /*
+     * This class is responsible for storing events in the EloquentSnapshotRepository.
+     * To add extra behaviour you can change this to a class of your own. It should
+     * extend the \Spatie\EventSourcing\Snapshots\EloquentSnapshot model.
+     */
+    'snapshot_model' => Spatie\EventSourcing\Snapshots\EloquentSnapshot::class,
+
+    /*
+     * This class is responsible for handling stored events. To add extra behaviour you
+     * can change this to a class of your own. The only restriction is that
+     * it should implement \Spatie\EventSourcing\StoredEvents\HandleDomainEventJob.
+     */
+    'stored_event_job' => Spatie\EventSourcing\StoredEvents\HandleStoredEventJob::class,
+
+    /*
+     * Similar to Relation::morphMap() you can define which alias responds to which
+     * event class. This allows you to change the namespace or class names
+     * of your events but still handle older events correctly.
+     */
+    'event_class_map' => [],
+
+    /*
+     * This class is responsible for serializing events. By default an event will be serialized
+     * and stored as json. You can customize the class name. A valid serializer
+     * should implement Spatie\EventSourcing\EventSerializers\EventSerializer.
+     */
+    'event_serializer' => Spatie\EventSourcing\EventSerializers\JsonEventSerializer::class,
+
+    /*
+     * These classes normalize and restore your events when they're serialized. They allow
+     * you to efficiently store PHP objects like Carbon instances, Eloquent models, and
+     * Collections. If you need to store other complex data, you can add your own normalizers
+     * to the chain. See https://symfony.com/doc/current/components/serializer.html#normalizers
+     */
+    'event_normalizers' => [
+        Spatie\EventSourcing\Support\CarbonNormalizer::class,
+        Spatie\EventSourcing\Support\ModelIdentifierNormalizer::class,
+        Symfony\Component\Serializer\Normalizer\DateTimeNormalizer::class,
+        Symfony\Component\Serializer\Normalizer\ArrayDenormalizer::class,
+        Spatie\EventSourcing\Support\ObjectNormalizer::class,
+    ],
+
+    /*
+     * In production, you likely don't want the package to auto-discover the event handlers
+     * on every request. The package can cache all registered event handlers.
+     * More info:
+     * https://spatie.be/docs/laravel-event-sourcing/v7/advanced-usage/discovering-projectors-and-reactors#content-caching-discovered-projectors-and-reactors
+     *
+     * Here you can specify where the cache should be stored.
+     */
+    'cache_path' => base_path('bootstrap/cache'),
+
+    /*
+     * When storable events are fired from aggregates roots, the package can fire off these
+     * events as regular events as well.
+     */
+
+    'dispatch_events_from_aggregate_roots' => false,
+];
 
                                 
                                 <!-- Required only on API pages -->
@@ -195,16 +304,23 @@ THE SOFTWARE.</p>
                             
                                 <nav class="flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../changelog/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../../../docs/it/config/database/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-gray-400 dark:text-dark-400">Previous</span>
-                                                <span class="block mt-1">Changelog</span>
+                                                <span class="block mt-1">Database</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../../../docs/it/config/exchanges/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
+                                                <span class="block mt-1">Exchanges</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
                                     </div>
                                 </nav>
                             </footer>
@@ -245,6 +361,6 @@ THE SOFTWARE.</p>
 
     <div id="docs-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "LICENSE", level: 1, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Event sourcing", level: 4, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
