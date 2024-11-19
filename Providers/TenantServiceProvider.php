@@ -22,8 +22,9 @@ class TenantServiceProvider extends XotBaseServiceProvider
 
     protected string $module_ns = __NAMESPACE__;
 
-    public function bootCallback(): void
+    public function boot(): void
     {
+        parent::boot();
         $this->mergeConfigs();
         $this->registerDB();
         $this->registerMorphMap();
@@ -58,8 +59,9 @@ class TenantServiceProvider extends XotBaseServiceProvider
         Schema::defaultStringLength(191);
     }
 
-    public function registerCallback(): void
+    public function register(): void
     {
+        parent::register();
         $this->app->register(Filament\AdminPanelProvider::class);
     }
 
@@ -74,14 +76,14 @@ class TenantServiceProvider extends XotBaseServiceProvider
         ]);
         */
         // if ($this->app->runningUnitTests()) {
-        if (base_path() !== realpath(__DIR__.'/../../../')) {
+        if (base_path() !== realpath(__DIR__ . '/../../../')) {
             // $this->publishes([
             //    __DIR__ . '/../Config/xra.php' => config_path('xra.php'),
             // ], 'config');
 
             $name = TenantService::getName();
             File::makeDirectory(config_path($name), 0755, true, true);
-            $this->mergeConfigFrom(__DIR__.'/../Config/xra.php', 'xra');
+            $this->mergeConfigFrom(__DIR__ . '/../Config/xra.php', 'xra');
 
             return;
         }
